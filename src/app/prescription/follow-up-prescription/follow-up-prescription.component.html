@@ -1,0 +1,452 @@
+<div class="test_anim">
+<form (ngSubmit)="save_follow_up_prescription(f)" #f="ngForm">
+	<div class="row">
+		<div class="col-md-12">
+			
+			<div class="panel panel-default">
+				<div class="panel-body">
+						
+					<b>Patient details:</b>
+					<table class="table table-condensed overall_pres_table no_border_table">
+						<tbody>
+							<tr>
+								<td>Name: {{lifestyles[0].pat_name}}</td>
+								<td>
+									Age:
+									<input type="number" name="age" step="any" 
+									class="form-control input-sm"
+									[(ngModel)]="age" style="display:inline; width:60px;"> 
+								</td>
+								<td>Cell no: {{lifestyles[0].cell_no}}</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<div style="margin-top: 30px;">
+						<label class="block_elem">Past history:</label>
+						<textarea class="form-control input-sm" animatedTextarea
+						style="width: 100%;resize: vertical;height:80px;"
+						name="past_history" [(ngModel)]="past_history"
+						placeholder="Patient's past history"></textarea>
+					</div>
+
+					<div style="margin-top: 10px;">
+						<label class="block_elem">Allergy history:</label>
+						<textarea class="form-control input-sm" animatedTextarea
+						style="width: 100%;resize: vertical;height:80px;"
+						name="allergy_history" [(ngModel)]="allergy_history"
+						placeholder="Patient's allergy history"></textarea>
+					</div>
+
+					<div style="margin-top: 10px;">
+						<label class="block_elem">Family history:</label>
+						<textarea class="form-control input-sm" animatedTextarea
+						style="width: 100%;resize: vertical;height:80px;"
+						name="family_history" [(ngModel)]="family_history"
+						placeholder="Patient's family history"></textarea>
+					</div>
+
+					<div style="margin-top: 10px;" >
+						<b>Personal history:</b>
+						<label class="input_with_selected" for="personal_history">	
+							<a href="javascript:void(0)" class="btn btn-xs btn-default multi_select_tag" 
+							*ngFor="let item of lifestyles.slice(3)">
+								{{item.lifestyle}} &nbsp;&nbsp;
+								<span class="glyphicon glyphicon-remove" aria-hidden="true"
+								(click)="remove_item_from_selection_ls({id:item.lf_value, text:item.lifestyle})"></span>
+							</a>
+							<input type="text" (click)="lifestyle_open_suggestion()"
+							name="lifestyles"
+							(input)="lifestyle_typed_input(ls_input.value)" #ls_input 
+							[(ngModel)]="lifestyle_input_default_val" id="personal_history"
+							placeholder="Add as many required">
+						</label>
+						<!-- multiselect field for lifestyle-->
+						
+						<div class="custom_multi_select">
+							<div *ngIf="lifestyle_show_suggestion" class="suggestion_container">
+								<button class="add_new_p_h btn btn-block btn-info btn-xs" 
+								(click)="add_new_personal_history(ls_input.value)" 
+								[disabled]="ls_input.value === ''"
+								type="button">
+									Not found? Add anyway
+								</button>
+								<span *ngIf="lifestyle_loading_data">Loading...</span>
+								<table *ngIf="!lifestyle_typed" 
+								class="table table-condensed suggestion_table">
+									<tbody>
+										<tr *ngFor="let i of lifestyle_shown_data" 
+										(click)="lifestyle_select_item(i)">
+											<td>
+												{{i.text}}
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								<table *ngIf="lifestyle_typed" 
+								class="table table-condensed suggestion_table">
+									<tbody>
+										<tr *ngFor="let i of lifestyle_shown_data_input" 
+										(click)="lifestyle_select_item(i)">
+											<td>
+												{{i.text}}
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>	
+					</div>	
+
+					<div style="margin-top: 10px;">
+						<b>Vaccination history:</b>
+						<label for="vaccine_history" class="input_with_selected">	
+							<a href="javascript:void(0)" class="btn btn-xs btn-default multi_select_tag" 
+							*ngFor="let i of vaccines">
+								{{i.text}} &nbsp;&nbsp;
+								<span class="glyphicon glyphicon-remove" aria-hidden="true"
+								(click)="remove_item_from_selection_vaccine({id:i.id, text:i.text})"></span>
+							</a>
+							<input type="text" (click)="switch_vaccination_suggestion()" 
+							name="vaccines" id="vaccine_history"
+							(input)="vaccine_typed_input(vaccine_input.value)" #vaccine_input 
+							[(ngModel)]="vaccine_default_val" 
+							placeholder="Add as many required">
+						</label>
+						<!-- multiselect field for vaccine-->
+						
+						<div class="custom_multi_select">
+							<div *ngIf="vaccine_open_suggestion" 
+							class="suggestion_container">
+								<span *ngIf="vaccine_loading_data">Loading...</span>
+								<table class="table table-condensed suggestion_table" *ngIf="!vaccine_loading_data">
+									<tbody>
+										<tr *ngFor="let i of vaccine_shown_items" 
+										(click)="vaccine_select_item(i)">
+											<td>
+												{{i.text}}
+											</td>		
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>	
+					</div>
+
+					<div style="margin-top:30px;">
+						<b>Chief complain(s):</b>
+						<label for="chief_complain" class="input_with_selected">
+							<a href="javascript:void(0)" class="btn btn-xs btn-default multi_select_tag" 
+							*ngFor="let item of problem_lists.slice(1)">
+								{{item.problem}} &nbsp;&nbsp;
+								<span class="glyphicon glyphicon-remove" aria-hidden="true"
+								(click)="remove_item_from_selection_pl({id:item.pl_value, text:item.problem})">
+								</span>
+							</a>
+							<input type="text" (click)="problem_list_open_suggestion()" name="problems" 
+							(input)="problem_list_typed_input(pl_input.value)" 
+							#pl_input [(ngModel)]="problem_list_input_default_val" id="chief_complain" 
+							placeholder="Add as many required">
+						</label>
+						<!---problem list multiselect-->
+						<div class="custom_multi_select">
+							<div *ngIf="problem_list_show_suggestion" class="suggestion_container">
+								<span *ngIf="problem_list_loading_data">Loading...</span>
+								<table *ngIf="!problem_list_typed" 
+								class="table table-condensed suggestion_table">					
+									<tbody>
+										<tr *ngFor="let i of problem_list_shown_data" 
+										(click)="problem_list_select_item(i)">
+											<td>
+												{{i.text}}
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								<table *ngIf="problem_list_typed" 
+								class="table table-condensed suggestion_table">
+									<tbody>
+										<tr *ngFor="let i of problem_list_shown_data_input" 
+										(click)="problem_list_select_item(i)">
+											<td>
+												{{i.text}}
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>	
+						</div>
+
+						<div class="row" style="margin-top: 10px;">
+							<div class="col-md-5">
+								<label class="block_elem">Examination & observation</label>
+				  				<div class="general_exam_div">
+				  					<doctorola-general-exam (observation_name)="add_observation($event)">
+				  						
+				  					</doctorola-general-exam>
+				  				</div>
+							</div>
+							<div class="col-md-7">
+								<label class="block_elem">Observations</label>
+								<div *ngIf="observations.length < 1">
+									Nothing added
+								</div>
+								<div *ngIf="observations.length > 0">
+				  					<table class="table table-condensed table-striped">
+				  						<tbody>
+				  							<tr *ngFor="let obs of observations" class="record_row">
+				  								<td style="width:30%;">{{obs.obs_type}}</td>
+				  								<td style="width:60%;">
+				  									<!-- textarea would be here for taking data -->
+				  									<textarea name="obs_data_{{obs.obs_id}}" 
+				  									[(ngModel)]="obs.obs_term"
+				  									style="width:100%;resize:vertical;"
+				  									placeholder="Write observation" required></textarea>
+				  								</td>
+				  								<td style="width:10%;">
+				  									<button type="button" 
+					  								class="btn btn-default btn-xs pull-right"
+													(click)="remove_item_from_selection_obs(obs.obs_type)">
+														<span class="glyphicon glyphicon-remove-circle" 
+														aria-hidden="true"></span>				
+													</button>
+				  								</td>
+				  							</tr>
+				  						</tbody>
+				  					</table>
+				  				</div>
+							</div>
+						</div>
+
+						<div style="margin-top: 10px;">
+							<label class="block_elem">Complain remarks:</label>
+							<textarea name="pl_remarks" class="form-control input-sm" 
+							[(ngModel)]="pl_remarks" animatedTextarea
+							placeholder="Additional note on problems (if any)"
+							style="resize: vertical;height:80px;"></textarea>
+						</div>	
+					</div>
+
+					<div style="margin-top: 30px;" class="row">
+						<div class="col-md-4">
+							<b>Investigation(s):</b>
+							<table class="table table-condensed table-striped"
+							*ngIf="tests.length > 0">
+								<tbody>
+									<tr *ngFor="let item of tests" class="record_row">
+										<td style="width:40%;">
+											{{item.diagnostic_test}}
+										</td>
+										<td style="width:50%;">
+											<textarea style="resize: vertical;" 
+											name="remarks_{{item.test_id}}"
+											[(ngModel)]="item.result_remarks"
+											placeholder="Test result/remarks"></textarea>
+										</td>
+										<td style="width: 10%;">
+											<button type="button" 
+			  								class="btn btn-default btn-xs pull-right"
+											(click)="remove_item_from_selection_test({id:item.test_id, text:item.diagnostic_test})">
+												<span class="glyphicon glyphicon-remove-circle" 
+												aria-hidden="true"></span>				
+											</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<!-- diagnostic test add -->
+							<div>
+					  			<input type="text" name="test" class="form-control input-sm" 
+								#test (input)="test_typed_input(test.value)" 
+								(click)="test_open_suggestion()"
+								[(ngModel)]="test_input_defaul_val"
+								placeholder="Add diagnostic test(s) if necessary">
+
+								<div *ngIf="test_show_suggestion" class="suggestion_container">
+									<span *ngIf="test_loading_data">Loading...</span>
+									<table class="table table-condensed suggestion_table" *ngIf="!test_loading_data">
+										<tbody>
+											<tr *ngFor="let i of test_shown_data" 
+											(click)="test_select_item(i)">
+												<td>
+													{{i.text}}
+												</td>		
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>	
+						</div>
+						<div class="col-md-8" >
+							<div style="margin-bottom: 10px;">
+								<label class="block_elem">Treatment/Management</label>
+								<textarea class="form-control input-sm" animatedTextarea
+								style="width: 100%;resize: vertical;height:80px;"
+								name="advice" [(ngModel)]="advice[0]['advice']"
+								placeholder="Any additional treatment advice if necessary"></textarea>
+							</div>
+
+							<b>Medicine(s):</b>
+							<table class="table table-condensed table-striped">
+								<tbody>
+									<tr *ngFor="let item of medicines" class="record_row">
+										<td style="width:30%;">
+											<b class="block">{{item.medicine}}</b>
+											<span>{{item.category}}</span>
+										</td>
+										<td style="width:65%;">
+											<div>
+												<input type="number" name="unit_{{item.medicine_id}}" 
+												step="any" style="width: 15%;" required 
+												[(ngModel)]="item.unit">
+												unit(s) every
+												<input type="number" name="freq_{{item.medicine_id}}" 
+												step="any" style="width: 15%;" required
+												[(ngModel)]="item.freq">
+												<select name="time_freq_{{item.medicine_id}}" 
+												[ngModel]="(item.time)? item.time:'Hour(s)'" 
+												style="padding: 3px 0">
+													<option value="Hour(s)">Hour(s)</option>
+													<option value="Day(s)">Day(s)</option>
+													<option value="Week(s)">Week(s)</option>
+													<option value="Month(s)">Month(s)</option>
+												</select>
+												at
+												<select name="day_time_{{item.medicine_id}}"  
+												[(ngModel)]="item.day_time" style="padding: 3px 0">
+													<option value="">None</option>
+													<option value="Morning">Morning</option>
+													<option value="Noon">Noon</option>
+													<option value="Night">night</option>
+												</select>
+												<select name="meal_{{item.medicine_id}}"  
+												[(ngModel)]="item.meal" style="padding: 3px 0">
+													<option value="">None</option>
+													<option value="Before">Before</option>
+													<option value="After">After</option>
+												</select>
+												meal for
+												
+												<input type="number" name="days_{{item.medicine_id}}" 
+												[(ngModel)]="item.days" style="width:15%;" min="0"> 
+												days OR  
+												
+												<input type="checkbox" 
+												name="continue_{{item.medicine_id}}" 
+												[ngModel]="item.dose_continue=='1'" > Continue
+											</div>
+											<div style="margin-top: 5px">
+												<textarea name="instruction_{{item.medicine_id}}" 
+												ngModel style="width: 95%; resize:vertical;" 
+												placeholder="Other instructions (if any)"
+												[(ngModel)]="item.remarks"></textarea>
+											</div>
+										</td>
+										<td style="width:5%;">
+											<button type="button" 
+											class="btn btn-default btn-xs pull-right"
+											(click)="remove_item_med({id:item.medicine_id, text:item.medicine})">
+												<span class="glyphicon glyphicon-remove-circle" 
+												aria-hidden="true"></span>				
+											</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+
+							<div>
+								<input type="text" name="medicines" class="form-control input-sm" 
+								#medicine (input)="medicine_typed_input(medicine.value)" 
+								[ngModel]="medicine_default_val" (click)="medicine_open_suggestion()"
+								placeholder="Type in generic or product name">		  
+
+								<div *ngIf="medicine_show_suggestion" class="suggestion_container">
+									<span *ngIf="medicine_loading_data">Loading...</span>
+									<table class="table table-condensed suggestion_table" *ngIf="medicine_typed">
+										<tbody>
+											<tr *ngFor="let i of medicine_shown_data" 
+											(click)="medicine_select_item(i)">
+												<td style="width:80%;">
+													{{i.text}}
+												</td>
+												<td style="width:20%;">
+													<span class="badge">{{i.type | uppercase}}</span>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+								<div *ngIf="medicine_show_product_selection_input" 
+								style="margin-top: 15px;">
+									<label class="block_elem">Product</label>
+									<input type="text" name="product" class="form-control input-sm"
+									[(ngModel)]="medicine_default_val_product" 
+									(input)="medicine_input_in_product_box(product.value)" 
+									#product placeholder="Product name(s)">									
+
+									<div *ngIf="medicine_show_suggestion_product" 
+									class="suggestion_container">
+										<span *ngIf="medicine_product_data_loading">Loading...</span>
+										
+										<table class="table table-condensed suggestion_table" 
+										*ngIf="!medicine_product_data_loading && !medicine_product_data_typed">
+											<tbody>
+												<tr *ngFor="let p of medicine_product_list" 
+												(click)="medicine_select_product(p)">
+													<td style="width:80%;">
+														{{p.text}}
+													</td>
+													<td style="width:20%;">
+														<span class="badge">{{p.type | uppercase}}</span>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+
+										<table class="table table-condensed suggestion_table" 
+										*ngIf="medicine_product_data_typed">
+											<tbody>
+												<tr *ngFor="let p of medicine_product_list_on_input" 
+												(click)="medicine_select_product(p)">
+													<td style="width:80%;">
+														{{p.text}}
+													</td>
+													<td style="width:20%;">
+														<span class="badge">{{p.type | uppercase}}</span>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+
+									</div>
+								</div>
+
+								<div style="margin-top: 15px;">
+									<button type="button" class="btn btn-success btn-sm"
+									(click)="medicine_add_item_in_queue()"
+									[disabled]="!medicine_selected_generic.id">Add</button>
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+					
+
+				</div>
+			</div>			
+		</div>
+	</div>
+
+	<div class="row" style="margin: 10px 0;">
+			
+		<button type="submit" class="btn btn-primary pull-right" 
+	  	[disabled]="lifestyles.length < 4 || disable_final_button || !f.valid || problem_lists.length < 2">
+	  		Generate prescription
+	  	</button>
+
+	</div>
+
+</form>
+</div>

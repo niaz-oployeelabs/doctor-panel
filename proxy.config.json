@@ -1,0 +1,7 @@
+{
+	"/doctorola/doctorola-server/*":{
+		"target":"http://localhost/doctorola/doctorola-server/",
+		"secure":false,
+		"logLevel":"debug"
+	}
+}

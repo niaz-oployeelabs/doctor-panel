@@ -1,0 +1,200 @@
+<div class="test_anim">
+<div class="row" style="margin-top: 20px;">
+	<div class="col-md-4">		
+		<div class="row">
+			<div class="col-md-7" style="padding-right: 0;">
+				<input type="text" name="" class="form-control input-sm" 
+				[ngModel]="dp_date" />
+			</div>	
+			<div class="col-md-5" style="padding-left: 0;">
+				<div style="position: relative;">	
+					<button class="btn btn-default btn-xs" (click)="operate_dp()">
+						<i class="fa fa-calendar fa-2x" aria-hidden="true"></i>
+					</button>
+
+					<doctorola-datepicker *ngIf="datepicker" 
+					(clicked_date)="received_date($event)"
+					[selected_day]="dp_date"></doctorola-datepicker>							
+				</div>
+			</div>
+		</div>	 
+	</div>
+	<div class="col-md-4"></div>
+	<div class="col-md-4">
+		<div class="pull-right">
+			<button class="btn btn-default btn-sm" (click)="switch_view()"
+			*ngIf="show_slots">Open requests</button>
+
+			<button class="btn btn-default btn-sm" (click)="switch_view()"
+			*ngIf="show_open_req">Slots</button>
+		</div>	
+	</div>
+</div>
+
+<div *ngIf="show_slots">
+	<div class="row" *ngIf="add_new_app">
+		<div class="col-md-12" style="margin-top: 20px;">
+			<div class="panel panel-primary">
+			  	<div class="panel-heading">
+			  		New appointment on <span class="badge">{{dp_date}}</span> at <span class="badge">{{add_new_app_time}}</span>
+			  	</div>
+			  	<div class="panel-body">
+			    	<form class="form-horizontal" #f="ngForm" (ngSubmit)="add_appointment_submit(f)">
+				  		<div class="row">
+				  			<div class="col-md-6">
+				  				
+				  				<div class="form-group">
+							    	<label for="reg_no" class="col-sm-3 control-label">Reg no</label>
+							    	<div class="col-sm-9">
+							      		<input type="text" class="form-control" id="reg_no" 
+							      		placeholder="Reg no (optional)" ngModel name="reg_no" />
+							    	</div>
+							  	</div>
+
+							  	<div class="form-group">
+							    	<label for="name" class="col-sm-3 control-label">Name</label>
+							    	<div class="col-sm-9">
+							      		<input type="text" class="form-control" id="name" 
+							      		placeholder="Patient name" ngModel name="name" required />
+							    	</div>
+							  	</div>
+
+							  	<div class="form-group">
+							    	<label for="cell_no" class="col-sm-3 control-label">Cell no</label>
+							    	<div class="col-sm-9">
+							      		<input type="text" class="form-control" id="cell_no" 
+							      		placeholder="Patient cell no" ngModel name="cell_no" 
+							      		pattern="[0]{1}[1]{1}[0-9]{9}" required />
+							    	</div>
+							  	</div>
+
+				  			</div>
+				  			<div class="col-md-6">
+				  				
+				  				<div class="form-group">
+							    	<label for="age" class="col-sm-3 control-label">Age</label>
+							    	<div class="col-sm-9">
+							      		<input type="number" class="form-control" id="age" 
+							      		placeholder="Patient age" ngModel name="age" 
+							      		required />
+							    	</div>
+							  	</div>
+
+							  	<div class="form-group">
+							    	<label for="gender" class="col-sm-3 control-label">Gender</label>
+							    	<div class="col-sm-9">
+							      		<select ngModel name="gender" required class="form-control" id="gender">
+							      			<option value="">Select gender</option>
+							      			<option value="m">Male</option>
+							      			<option value="f">Female</option>
+							      		</select>
+							    	</div>
+							  	</div>
+
+							  	<div class="form-group">
+							    	<label for="type" class="col-sm-3 control-label">Visit type</label>
+							    	<div class="col-sm-9">
+							      		<select ngModel name="type" required class="form-control" id="type">
+							      			<option value="">Select visit type</option>
+							      			<option value="new">New Patient</option>
+											<option value="ret">Returning Patient</option>
+											<option value="rep">Follow Up/Report</option>
+	      								</select>
+							    	</div>
+							  	</div>
+
+				  			</div>			  			
+				  		</div>
+				  		<div class="row">
+				  			<div class="col-md-11">			  				
+				  				<button type="submit" class="btn btn-sm btn-success pull-right"
+				  				[disabled]="!f.valid || disable_final_button">
+				  					Add appointment
+				  				</button>
+				  			</div>
+				  			<div class="col-md-1">
+				  				<button type="button" class="btn btn-sm btn-warning pull-right" 
+				  				(click)="close_add_new_app_panel()" >
+				  					Cancel
+				  				</button>
+				  			</div>
+				  		</div>
+				  	</form>	
+			  	</div>
+			</div>
+		</div>	
+	</div>
+
+	<div class="row">
+		<div class="col-md-12" style="margin-top: 20px;">
+			<div *ngIf="load_slots">Loading slots, please wait...</div>
+				
+			<table class="table table-condensed table-bordered table-striped">
+				<thead>
+					<tr>
+						<th>Time</th>
+						<th>Reg. id</th>
+						<th>Patient</th>
+						<th>App. type</th>
+						<th>Action</th>
+					</tr>	
+				</thead>
+				<tbody>
+					<tr *ngFor="let s of slots">
+						<td style="width:20%">{{s.from_data}} {{s.from_merid}}</td>
+						<td style="width:10%">{{s.reg_id}}</td>
+						<td style="width:30%">
+							<div *ngIf="s.name">Name: <b>{{s.name}}</b></div>
+							<div *ngIf="s.cell_no">Cell no: <b>{{s.cell_no}}</b></div>
+						</td>
+						<td style="width:20%">
+							{{(s.cell_no)? (s.entered_by == '1')? 'Custom':'Doctorola' :'-' }}
+						</td>
+						<td style="width:20%">				
+							<span *ngIf="!s.cell_booking && !s.cell_no && !s.formatted_cancelled_date">
+								<button class="btn btn-success btn-xs" 
+								(click)="open_add_new_app_panel(s.id, s.from_data, s.from_merid)">New</button>
+
+								<button class="btn btn-xs btn-warning" 
+								(click)="deactivate_this_slot(s.id)" >Deactivate</button>
+							</span>
+							<span *ngIf="s.formatted_cancelled_date">
+								<button class="btn btn-info btn-xs"
+								(click)="activate_this_slot(s.id)">Activate</button>
+							</span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<div *ngIf="show_open_req">
+	<div class="row">
+		<div class="col-md-12" style="margin-top: 20px;">
+			<div *ngIf="load_open_req">Loading open req(s), please wait...</div>
+				
+			<table class="table table-condensed table-bordered table-striped">
+				<thead>
+					<tr>
+						<th>Time</th>
+						<th>Patient</th>
+					</tr>	
+				</thead>
+				<tbody>
+					<tr *ngFor="let r of open_req">
+						<td style="width:50%">{{r.app_time}} {{r.app_merid}}</td>
+						<td style="width:50%">
+							<div *ngIf="r.name">Name: <b>{{r.name}}</b></div>
+							<div *ngIf="r.cell_no">Cell no: <b>{{r.cell_no}}</b></div>
+							<div *ngIf="r.age">Age: <b>{{r.age}}</b></div>
+							<div *ngIf="r.gender">Gender: <b>{{r.gender}}</b></div>
+						</td>						
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+</div>

@@ -1,0 +1,52 @@
+<div class="list-group">
+	<a [routerLink]="['dashboard']" routerLinkActive="active" class="list-group-item">
+	    <h5 class="list-group-item-heading">
+	    	<i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard
+	    </h5>
+	    <p class="list-group-item-text">
+	    	Managable chambers along with their slot details
+	    </p>
+	</a>
+	<a [routerLink]="['profile']" routerLinkActive="active" class="list-group-item">
+	    <h5 class="list-group-item-heading">
+	    	<i class="fa fa-user" aria-hidden="true"></i> Profile
+	    </h5>
+	    <p class="list-group-item-text">
+	    	Doctor profile that is visible in doctorola.com
+	    </p>
+	</a>
+	<a [routerLink]="['prescription']" routerLinkActive="active" class="list-group-item"
+	[class.disabled]="active_prescription == 0">
+	    <h5 class="list-group-item-heading">
+	    	<i class="fa fa-file-text" aria-hidden="true"></i> Prescription
+	    </h5>
+	    <p class="list-group-item-text">
+	    	Create and manage prescription
+	    </p>
+	</a>
+	<a [routerLink]="['prescription-history']" routerLinkActive="active" class="list-group-item"
+	[class.disabled]="active_prescription == 0">
+	    <h5 class="list-group-item-heading">
+	    	<i class="fa fa-files-o" aria-hidden="true"></i> Previous prescription(s)
+	    </h5>
+	    <p class="list-group-item-text">
+	    	All previous prescriptions
+	    </p>
+	</a>
+	<a [routerLink]="['online-consultation']" routerLinkActive="active" class="list-group-item">
+	    <h5 class="list-group-item-heading">
+	    	<i class="fa fa-video-camera" aria-hidden="true"></i> Onsultation
+	    </h5>
+	    <p class="list-group-item-text">
+	    	Online consultation
+	    </p>
+	</a>
+	<a [routerLink]="['wallet']" routerLinkActive="active" class="list-group-item">
+	    <h5 class="list-group-item-heading">
+	    	<i class="fa fa-money" aria-hidden="true"></i> My Wallet
+	    </h5>
+	    <p class="list-group-item-text">
+	    	Online consultation fees
+	    </p>
+	</a>
+</div>

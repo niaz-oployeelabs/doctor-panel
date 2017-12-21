@@ -1,0 +1,218 @@
+<div class="test_anim">
+<div class="row">
+	<div class="col-md-12">
+		<table class="table table-condensed">
+			<tbody>
+				<tr>
+					<td colspan="2">
+						Patient name: {{pat_details.name}} 
+						&nbsp;&nbsp;&nbsp; 
+						Age: {{pat_details.age}}
+						&nbsp;&nbsp;&nbsp;
+						Gender: {{pat_details.gender}}
+						&nbsp;&nbsp;&nbsp;
+						Cell no: {{pat_details.cell_no}}
+					</td>
+					<td>
+						<a href="javascript:void(0)" class="pull-right"
+						(click)="toggle_prev_data()">
+							<strong>
+								Previous step information &nbsp;
+								<i class="fa fa-caret-down" aria-hidden="true"
+								*ngIf="!show_prev_data"></i>
+								<i class="fa fa-caret-up" aria-hidden="true"
+								*ngIf="show_prev_data"></i>
+							</strong>	
+						</a>
+					</td>		
+				</tr>
+				<tr *ngIf="show_prev_data">
+					<td style="width: 33%;">
+						<span *ngIf="data_loading">Loading, please wait...</span>
+						<span *ngIf="!data_loading" class="pat_details_paragraph">
+							<b>Past history:</b>
+							<span *ngIf="lifestyles[0].type == 'past_history'">
+								{{lifestyles[0].term}}
+							</span>
+						</span>
+					</td>
+					<td style="width: 33%;">
+						<span *ngIf="data_loading">Loading, please wait...</span>
+						<span *ngIf="!data_loading" class="pat_details_paragraph">
+							<b>Allergy history:</b>
+							<span *ngIf="lifestyles[1].type == 'allergy_history'">
+								{{lifestyles[1].term}}
+							</span>
+						</span>
+					</td>	
+					<td style="width: 33%;">
+						<span *ngIf="data_loading">Loading, please wait...</span>
+						<span *ngIf="!data_loading" class="pat_details_paragraph">
+							<b>Family history:</b>
+							<span *ngIf="lifestyles[2].type == 'family_history'">
+								{{lifestyles[2].term}}
+							</span>
+						</span>
+					</td>
+				</tr>
+				<tr *ngIf="show_prev_data">
+					<td class="pat_details_paragraph" colspan="3">
+						Personal history: 
+						<span *ngFor="let l of lifestyles">
+							<span class="label label-primary" *ngIf="l.type == 'other_lifestyle'">
+								{{l.lifestyle}}
+							</span>
+						</span>
+					</td>
+				</tr>
+				<tr *ngIf="show_prev_data">
+					<td class="pat_details_paragraph" colspan="3">
+						Vaccination history: 
+						<span *ngFor="let i of vaccine_items">
+							<span class="label label-primary" >
+								{{i.text}}
+							</span>
+						</span>
+					</td>
+				</tr>
+			</tbody>	
+		</table>		
+	</div>	
+</div>
+
+<div class="row">
+	<div class="col-md-4">
+		<button type="button" class="btn btn-default btn-block" (click)="switch_step(1)">
+			History & background
+		</button>		 
+	</div>
+	<div class="col-md-4">
+		<button type="button" class="btn btn-primary btn-block">
+			Complain details
+		</button>
+	</div>
+	<div class="col-md-4">
+		<button type="button" class="btn btn-default btn-block" 
+		[disabled]="current_step < 3" (click)="switch_step(3)">
+			Advice & management
+		</button>
+	</div>
+</div>
+
+<div class="row" style="margin-top: 20px;">
+	<div class="col-md-12">
+		
+		<div class="panel panel-primary">
+			<div class="panel-heading">Patient complain details</div>
+		  	<div class="panel-body">
+		  		
+		  	<form (ngSubmit)="add_problems(f)" #f="ngForm">
+		  		<div class="row">
+		  			<div class="col-md-12">
+		  				<label class="block_elem">Chief complains</label>
+
+		  				<label class="input_with_selected" for="chief_complain">	
+							<a href="javascript:void(0)" class="btn btn-xs btn-default multi_select_tag" 
+							*ngFor="let i of selected_item">
+								{{i.text}} &nbsp;&nbsp;
+								<span class="glyphicon glyphicon-remove" aria-hidden="true"
+								(click)="remove_item_from_selection({id:i.id, text:i.text})"></span>
+							</a>
+							<input type="text" (click)="open_suggestion()" name="problems"  
+							(input)="typed_input(input.value)" #input [(ngModel)]="default_val" 
+							placeholder="Add as many required" id="chief_complain">
+						</label>
+
+						<div class="custom_multi_select">
+							<div *ngIf="show_suggestion" class="suggestion_container">
+								<span *ngIf="loading_data">Loading...</span>							
+								<table class="table table-condensed suggestion_table" *ngIf="!typed">
+									<tbody>
+										<tr *ngFor="let i of shown_items" 
+										(click)="select_item(i)">
+											<td>
+												{{i.text}}
+											</td>		
+										</tr>
+									</tbody>
+								</table>
+								<table class="table table-condensed suggestion_table" *ngIf="typed">
+									<tbody>
+										<tr *ngFor="let i of shown_items_on_input" 
+										(click)="select_item(i)">
+											<td>
+												{{i.text}}
+											</td>		
+										</tr>
+									</tbody>
+								</table>
+							</div>	
+						</div>
+
+		  			</div>
+		  		</div>
+
+		  		<div class="row" style="margin-top: 15px;">
+		  			<div class="col-md-5">
+		  				<label class="block_elem">Examination & observation</label>
+		  				<div class="general_exam_div">
+		  					<doctorola-general-exam (observation_name)="add_observation($event)">
+		  						
+		  					</doctorola-general-exam>
+		  				</div>
+		  			</div>
+		  			<div class="col-md-7">
+		  				<label class="block_elem">Observations</label>
+		  				<div *ngIf="observations.length < 1">
+							Nothing added
+						</div>
+		  				<div *ngIf="observations.length > 0">  					
+		  					<table class="table table-condensed table-striped">
+		  						<tbody>
+		  							<tr *ngFor="let obs of observations" class="record_row">
+		  								<td style="width:30%;">{{obs.name}}</td>
+		  								<td style="width:60%;">
+		  									<!-- textarea would be here for taking data -->
+		  									<textarea name="obs_data_{{obs.id}}" [(ngModel)]="obs.data" 
+		  									style="width:100%;resize:vertical;"
+		  									placeholder="Write observation" required></textarea>
+		  								</td>
+		  								<td style="width:10%;">
+		  									<button type="button" 
+			  								class="btn btn-default btn-xs pull-right"
+											(click)="remove_item_from_selection_obs(obs.name)">
+												<span class="glyphicon glyphicon-remove-circle" 
+												aria-hidden="true"></span>				
+											</button>
+		  								</td>
+		  							</tr>
+		  						</tbody>
+		  					</table>
+		  				</div>
+		  			</div>
+		  		</div>
+
+		  		<div class="row" style="margin-top: 15px;">
+		  			<div class="col-md-12">
+		  				<label for="remarks" class="block_elem">Other remarks (if any)</label>
+		  				<textarea name="remarks" class="form-control input-sm" [ngModel]="remarks"
+		  				id="remarks" style="width: 100%;resize: vertical;height:80px;" animatedTextarea
+		  				placeholder="Write any note or remarks for additional record"></textarea>
+		  			</div>
+		  		</div>
+		  		<div class="row" style="margin-top: 15px;">
+		  			<div class="col-md-12">
+		  				<button type="submit" class="btn btn-success" 
+		  				[disabled]="selected_item.length < 1 || disable_final_button  || !f.valid">
+		  					Save
+		  				</button>
+		  			</div>
+		  		</div>
+		  	</form>
+
+		  	</div>
+		</div>  	
+
+	</div>
+</div>
+</div>

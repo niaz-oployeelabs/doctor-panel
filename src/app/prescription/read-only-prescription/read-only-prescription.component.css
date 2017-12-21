@@ -1,0 +1,46 @@
+.inline_text_list{
+	padding: 0;
+	margin: 0 0 7px 0;
+}
+.inline_text_list li{
+	display: inline-block;
+	margin-right: 25px;
+}
+.overall_pres_table{
+	margin-bottom: 7px;
+}
+.overall_pres_table td{
+	padding: 0;
+}
+.no_border_table td{
+	border: none;
+}
+/*****new revised styles****/
+.bordered{
+	border: 1px solid #000;
+}
+.bordered_with_padding{
+	padding: 10px;
+}
+.bordered_header{
+	border-bottom: 1px solid #000;
+}
+.borderd_header_inner, .borderd_body_inner{
+	padding: 10px;
+}
+.jumbo_block{
+	margin-bottom: 15px;
+}
+.jumbo_paragraph{
+	font-size: 15px;
+	margin:0 0 5px;
+	text-decoration: underline;
+}
+.show_as_saved{
+	/*white-space: pre-line;*/
+}
+@media print{
+	.signature_block{
+		page-break-before: always;
+	}
+}	

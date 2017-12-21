@@ -1,0 +1,343 @@
+<div class="test_anim">
+<div class="row">
+	<div class="col-md-12">
+		
+		<div class="panel panel-default" id="printable">
+			<div class="panel-body">
+				
+				<div *ngIf="data_loading">Loding data, please wait...</div>
+
+				<!-- new revised view -->
+
+				<div *ngIf="!data_loading">
+					<div class="bordered">
+						<div class="bordered_header">
+							<div class="borderd_header_inner">
+								<div class="row">
+									<div class="col-md-6 same_row_left">
+
+										<div class="row">
+											<div class="col-md-4 same_row_left">
+												<span>Patient name  :</span>
+											</div>
+											<div class="col-md-8 same_row_right">
+												<b>{{lifestyles[0].pat_name}}</b>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col-md-4 same_row_left">
+												<span>Patient age  :</span>
+											</div>
+											<div class="col-md-8 same_row_right">
+												<b>{{lifestyles[0].pat_age}}</b>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col-md-4 same_row_left">
+												<span>Patient gender  :</span>
+											</div>
+											<div class="col-md-8 same_row_right">
+												<b *ngIf="lifestyles[0].pat_gender == 'm'">
+													Male
+												</b>
+												<b *ngIf="lifestyles[0].pat_gender == 'f'">
+													Female
+												</b>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col-md-4 same_row_left">
+												<span>Patient cell no  :</span>
+											</div>
+											<div class="col-md-8 same_row_right">
+												<b>{{lifestyles[0].cell_no}}</b>
+											</div>
+										</div>
+
+									</div>
+
+									<div class="col-md-6 same_row_right">
+										
+										<div class="row">
+											<div class="col-md-4 same_row_left">
+												<span>Consultant  :</span>
+											</div>
+											<div class="col-md-8 same_row_right" 
+											style="font-size: 14px;">
+												<b>{{doctor.name}}</b>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col-md-4 same_row_left">
+												<span></span>
+											</div>
+											<div class="col-md-8 same_row_right">
+												<b>{{doctor.des}}</b>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col-md-4 same_row_left">
+												<span></span>
+											</div>
+											<div class="col-md-8 same_row_right">
+												<b>{{doctor.degree}}</b>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col-md-4 same_row_left">
+												<span>Date  :</span>
+											</div>
+											<div class="col-md-8 same_row_right">
+												<b>{{(lifestyles[0].created)*1000 | date}}</b>
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="bordered_body">
+							<div class="borderd_body_inner">
+								
+								
+
+								<div class="jumbo_block">
+									<p class="jumbo_paragraph">History & background </p>
+									<div *ngIf="lifestyles[0].lf_value != ''" class="show_as_saved">
+										<b>Past history :</b>
+										<p>{{lifestyles[0].lf_value}}</p>
+									</div>	
+									<div *ngIf="lifestyles[1].lf_value != ''" class="show_as_saved">
+										<b>Allergy history :</b>
+										<p>{{lifestyles[1].lf_value}}</p>
+									</div>
+									<div *ngIf="lifestyles[2].lf_value != ''" class="show_as_saved">
+										<b>Family history :</b>
+										<p>{{lifestyles[2].lf_value}}</p>
+									</div>
+									<div class="inline_list_div" *ngIf="lifestyles.slice(3).length > 0" >
+										<b>Personal history:</b>
+										<ul class="inline_text_list">
+											<li *ngFor="let item of lifestyles.slice(3),let i=index">
+												{{i+1}}) {{item.lifestyle}}
+											</li>
+										</ul>
+									</div>
+									<div class="inline_list_div" *ngIf="vaccines.length > 0">
+										<b>Vaccination history:</b>
+										<ul class="inline_text_list">
+											<li *ngFor="let item of vaccines, let i=index">
+												{{i+1}}) {{item.text}}
+											</li>
+										</ul>
+									</div>
+								</div>	
+								
+								<div class="jumbo_block">	
+									<p class="jumbo_paragraph">Complain details </p>
+									<div class="inline_list_div" 
+									*ngIf="problem_lists.slice(1).length > 0">
+										<b>Chief complain(s):</b>
+										<ul class="inline_text_list">
+											<li *ngFor="let item of problem_lists.slice(1), let i=index">
+												{{i+1}}) {{item.problem}}
+											</li>
+										</ul>
+									</div>	
+									<div *ngIf="observations.length > 0">
+										<b>Examination & observation:</b>					
+										<table class="table table-condensed table-striped">
+											<tbody>												
+												<tr *ngFor="let obs of observations">
+													<td style="width:50%;">
+														{{obs.obs_type}}
+													</td>
+													<td style="width:50%;">
+														{{obs.obs_term}}
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<div *ngIf="problem_lists[0]">
+										<div *ngIf="problem_lists[0].pl_value != ''" >
+											<b>Complain remarks:</b>
+											<p>{{problem_lists[0].pl_value}}</p>
+										</div>
+									</div>	
+								</div>	
+
+								<!--<div class="page_break">
+									
+								</div>-->
+
+								<div class="jumbo_block ">
+									<p class="jumbo_paragraph">Advice & management </p>
+									<div class="non_breakable" *ngIf="tests.length > 0">
+										<b>Investigation(s):</b>
+										<table class="table table-condensed table-striped">
+											<tbody>
+												<tr *ngFor="let item of tests">
+													<td style="width:50%;">
+														{{item.diagnostic_test}}
+													</td>
+													<td style="width:50%;">
+														{{item.result_remarks}}
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+
+									
+
+									<div *ngIf="advice[0]" class="non_breakable">
+										<b>Treatment/Management advice: </b>
+										<p>{{advice[0]['advice']}}</p>
+									</div>
+
+									<div class="non_breakable">
+										<div class="bordered bordered_with_padding " 
+										*ngIf="medicines.length > 0">
+											<div>
+											<div>
+												<img alt="rx-icon" style="max-width:20px;"
+												src="https://doctorola.com/doctor/assets/images/rx-icon.png" />
+											</div>
+												<table class="table table-condensed">
+													<thead>
+														<tr>
+															<th>Medicine</th>
+															<th>Dose</th>
+															<th>Advice (on medicine)</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr *ngFor="let item of medicines">
+															<td style="width:33%;">
+																<b class="block">{{item.medicine}}</b>
+																<span *ngIf="item.medicine == ''">
+																	{{item.category}}
+																</span>
+															</td>
+															<td style="width:33%;">
+																<span class="block">{{item.generated_dose}}</span>
+																<span class="block" *ngIf="item.day_time!=''">
+																	On {{item.day_time}}
+																	<span *ngIf="item.day_time=='Morning'">
+																		(সকালে)
+																	</span>
+																	<span *ngIf="item.day_time=='Noon'">
+																		(বিকালে)
+																	</span>
+																	<span *ngIf="item.day_time=='Night'">
+																		(রাতে)
+																	</span>
+																</span>
+																<span class="block" *ngIf="item.meal!=''">
+																	{{item.meal}} meal
+																	<span *ngIf="item.meal=='Before'">
+																		(খাওয়ার আগে)
+																	</span>
+																	<span *ngIf="item.meal=='After'">
+																		(খাওয়ার পরে)
+																	</span>
+																</span>
+																<span class="block" *ngIf="item.days>0">
+																	For {{item.days}} day(s)
+																	<span>
+																		({{item.days}} দিনের জন্য)
+																	</span>
+																</span>										
+																<span class="block" 
+																*ngIf="item.days<1 && item.dose_continue=='1'">
+																	Dose continues
+																	(ওষুধ চলবে)
+																</span>
+															</td>
+															<td style="width:33%;">{{item.remarks}}</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									
+
+									
+										<div class="jumbo_block row " 
+										style="margin-top: 50px;overflow: hidden;">
+											<div class="col-md-6 "></div>
+											<div class="col-md-6 ">
+												<div class="pull-right" 
+												style="border-top:1px solid #000;">	
+													<b>{{doctor.name}}</b>
+													<p>{{doctor.des}}</p>
+												</div>
+											</div>									
+										</div>
+									</div>	
+									
+							</div>
+					<!--	</div>-->
+					</div>
+				</div>
+
+
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-2" style="margin-bottom: 20px;">
+	<!--	<button class="btn btn-sm btn-success"
+		[disabled]="data_loading"
+		(click)="print_prescription()">
+			Print
+		</button> -->
+		<div *ngIf="data_loading">
+			<button class="btn btn-sm btn-success" disabled >Print</button>
+		</div>
+		<div *ngIf="!data_loading">
+			<doctorola-print-prescription
+			[lifestyles]="lifestyles"
+			[problem_lists]="problem_lists"
+			[medicines]="medicines"
+			[tests]="tests"
+			[observations]="observations"
+			[advice]="advice"
+			[vaccines]="vaccines"></doctorola-print-prescription>
+		</div>
+	</div>
+	<div class="col-md-5">
+		<div class="text-center" *ngIf="data_loading">
+			<button class="btn btn-default btn-sm" *ngIf="onsultation_record_id" disabled>
+				Send prescription to patient
+			</button>
+		</div>
+		<div class="text-center" *ngIf="!data_loading">
+			<button class="btn btn-default btn-sm" *ngIf="onsultation_record_id"
+			(click) = "send_prescription_to_onsultation_pat()">
+				Send prescription to patient
+			</button>
+		</div>	
+	</div>
+	<div class="col-md-5" style="margin-bottom: 20px;">
+		<button class="btn btn-primary btn-sm pull-right" (click)="nav_to_follow_up(0)"
+		*ngIf="editable == 1 && problem_lists.length > 0">
+			Make a follow up prescripstion
+		</button>
+		<button class="btn btn-sm btn-warning pull-right" (click)="nav_to_follow_up(1)"
+		*ngIf="editable == 0">
+			Update this prescription
+		</button>
+	</div>
+</div>
+</div>

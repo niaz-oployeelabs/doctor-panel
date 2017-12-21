@@ -1,0 +1,14 @@
+.inline_patient_list{
+	padding: 0;
+	margin: 0;
+}
+.inline_patient_list li{
+	display: inline-block;
+	margin-right: 15px;
+}
+.inline_patient_list li .panel{
+	width: 265px;
+}
+.pat_details_paragraph{
+	font-size: 15px;
+}

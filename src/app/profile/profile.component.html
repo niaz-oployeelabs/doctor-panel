@@ -1,0 +1,70 @@
+<div class="test_anim">
+<div class="row">
+	<div class="col-md-12">
+		
+		<div class="panel panel-primary">
+		  	<div class="panel-heading">Basic Information</div>
+		  	<div class="panel-body">
+		    	<div style="font-size: 16px;">{{basic_info.name}}</div>
+		    	<div>{{basic_info.des}}</div>	
+		    	<p>{{basic_info.sp}}</p>
+		    	<div>
+		    		<b>Email:</b> {{basic_info.email}} 
+		    		<span *ngIf="!basic_info.email" class="disabled_text">Not set</span>
+		    	</div>
+		    	<div>
+		    		<b>Other phone no:</b> {{basic_info.other_phone_no}}
+		    		<span *ngIf="!basic_info.other_phone_no" class="disabled_text">Not set</span>
+		    	</div>
+		    	<p>
+		    		<b>BMDC Reg no:</b> {{basic_info.bmdc_no}}
+		    		<span *ngIf="!basic_info.bmdc_no" class="disabled_text">Not set</span>
+		    	</p>
+		    	<p>
+		    		<b>Description:</b> {{basic_info.description}}
+		    		<span *ngIf="!basic_info.description" class="disabled_text">Not set</span>
+		    	</p>
+		    	<p>
+		    		<b>Degree:</b> {{basic_info.degree}}
+		    		<span *ngIf="!basic_info.degree" class="disabled_text">Not set</span>
+		    	</p>
+		 	</div>
+		</div>
+
+		<div class="panel panel-primary">
+		  	<div class="panel-heading">Chambers</div>
+		  	<div class="panel-body">
+
+		  		<div *ngIf="no_chamber">No chamber is set.</div>
+
+		  		<section *ngFor="let c of chambers">
+		  			<div *ngIf="c.center" style="font-size: 14px;">
+		  				<b>{{c.center}}, {{c.area}}, {{c.city}}</b>
+		  			</div>
+		  			<div *ngIf="!c.center" style="font-size: 14px;">
+		  				<b>{{c.address_note}}, {{c.area}}, {{c.city}}</b>
+		  			</div>
+		  			<div>
+		  				Notification no: {{c.notification}}
+		  				<span *ngIf="!c.notification" class="disabled_text">Not set</span>
+		  			</div>
+		  			<div>
+		  				New Patient fee: {{c.fee_new_patient}}
+		  				<span *ngIf="!c.fee_new_patient" class="disabled_text">Not set</span>
+		  			</div>
+		  			<div>
+		  				Returning Patient fee: {{c.fee_ret_patient}}
+		  				<span *ngIf="!c.fee_ret_patient" class="disabled_text">Not set</span>
+		  			</div>
+		  			<p>
+		  				Report/Follow up fee: {{c.fee_repeat_visit}}
+		  				<span *ngIf="!c.fee_repeat_visit" class="disabled_text">Not set</span>
+		  			</p>
+		  		</section>
+
+		  	</div>
+		</div>  	
+
+	</div>
+</div>
+</div>

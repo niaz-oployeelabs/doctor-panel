@@ -1,0 +1,82 @@
+<div class="row">
+	<div class="col-md-12">
+		<button class="btn btn-xs btn-success" (click)="switch_doctor_online_status(0)"
+		*ngIf="doctor_online == 1">
+			I am online. Make me offline
+		</button>
+		<button class="btn btn-xs btn-default" (click)="switch_doctor_online_status(1)"
+		*ngIf="doctor_online == 0">
+			I am offline. Make me online
+		</button>
+		&nbsp;&nbsp;&nbsp;
+		<span *ngIf="switch_online_status"> Changing online status, please wait... </span>
+	</div>
+</div>
+<div class="row" style="margin-top: 15px;">
+	
+	<div class="col-md-12">
+		<h4>Online consultation list</h4>
+
+		<div *ngIf="data_loading">Loading, please wait...</div>
+		
+		<div *ngIf="!data_loading">
+			<table class="table table-condensed table-hover">
+				<thead>
+					<th>Date</th>
+					<th>Patient details</th>
+					<th>Complain</th>
+					<th>Action</th>
+				</thead>
+				<tbody>
+					<tr *ngFor="let d of data, let i=index">
+						<td style="width: 15%;">{{d.formatted_time | date:"MMM d y, hh:mm a"}}</td>
+						<td style="width: 30%;">
+							<div><b>{{d.name}}</b></div>
+							<div>Cell no: {{d.cell_no}}</div>
+							<div *ngIf="d.age">Age: {{d.age}}</div>
+							<div *ngIf="d.gender">Gender: {{d.gender}}</div>
+						</td>
+						<td style="width: 20%;">
+							<!--{{d.problem}}-->
+							<div [innerHtml]="d.problem"></div>							
+						</td>
+						<td style="width: 25%;">
+							<div *ngIf="d.session_id != '' && d.is_complete == '0'">
+								<!--<a target="_blank" class="btn btn-sm btn-success"
+								href="http://localhost/doctorola/doctorola-client/video_call?id={{d.id}}&s_id={{d.session_id}}&token={{d.doc_token}}">Join video call
+								</a>-->
+
+								<div style="margin-bottom: 10px;">								
+									<button  class="btn btn-xs btn-success" 
+									(click)="go_for_video_call(d.id, d.session_id, d.doc_token, i)">
+										<i class="fa fa-video-camera" aria-hidden="true"></i> 
+										Join call / Reconnect
+									</button>
+								</div>	
+
+								<div style="margin-bottom: 10px;">
+									<a 
+									[routerLink]="['/protected','prescription','contact',d.cell_no,d.id]"  routerLinkActive="active" class="btn btn-xs btn-primary">
+										<i class="fa fa-file-text" aria-hidden="true"></i> Create prescription
+									</a>
+								</div>	
+
+								<div>
+									<button class="btn btn-xs btn-info" *ngIf="d.end_onsultation_enabled == '1'"
+									(click)="finish_call(d.id, d.onsultation_charge, d.total_balance)">
+										<i class="fa fa-hourglass-end" aria-hidden="true"></i> End consultation
+									</button>
+								</div>	
+
+							</div>
+							<div *ngIf="d.is_complete == '1'">
+								Call ended
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+</div>

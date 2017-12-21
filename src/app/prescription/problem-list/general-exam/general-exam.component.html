@@ -1,0 +1,14 @@
+<table class="table table-condensed table-striped">
+	<tbody>
+		<tr *ngFor="let obs of observations">
+			<td>{{obs.name}}</td>
+			<td>
+				<button (click)="select_general_exam(obs)"
+				class="btn btn-xs btn-success pull-right" type="button"
+				[disabled]="!obs.status">
+					Add
+				</button>
+			</td>
+		</tr>		
+	</tbody>	
+</table>

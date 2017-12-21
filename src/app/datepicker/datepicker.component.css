@@ -1,0 +1,43 @@
+.main_container{
+	width:300px;
+	position:absolute;
+	top:40px;
+	left:0;
+	background-color: #fff;
+	z-index: 2000;
+	border:1px solid #CCCCCC;
+	padding: 10px 15px;
+
+	-webkit-animation: animate_first_view 0.3s;
+	-moz-animation: animate_first_view 0.3s;
+	-o-animation: animate_first_view 0.3s;
+	animation: animate_first_view 0.3s;
+	
+	-webkit-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
+	box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
+}
+.valued_td{
+	cursor: pointer;
+	width:14%;
+}
+.valued_td:hover{
+	background-color: #E3E3E3;
+	color: #000;
+}
+.today_date{
+	background-color: #DE3641;
+	color: #fff;
+}
+.today_date:hover{
+	background-color: #B13138;
+	color: #fff;
+}
+.selected{
+	background-color: #267ED5;
+	color: #fff;
+}
+.selected:hover{
+	background-color: #1462B0;
+	color: #fff;
+}

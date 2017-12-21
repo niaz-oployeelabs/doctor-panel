@@ -1,0 +1,368 @@
+<div class="test_anim">
+<div class="row">
+	<div class="col-md-12">
+		<table class="table table-condensed">
+			<tbody>
+				<tr>
+					<td colspan="2">
+						Patient name: {{pat_details.name}} 
+						&nbsp;&nbsp;&nbsp; 
+						Age: {{pat_details.age}}
+						&nbsp;&nbsp;&nbsp;
+						Gender: {{pat_details.gender}}
+						&nbsp;&nbsp;&nbsp;
+						Cell no: {{pat_details.cell_no}}
+					</td>
+					<td>
+						<a href="javascript:void(0)" class="pull-right"
+						(click)="toggle_prev_data()">
+							<strong>
+								Previous step information &nbsp;
+								<i class="fa fa-caret-down" aria-hidden="true"
+								*ngIf="!show_prev_data"></i>
+								<i class="fa fa-caret-up" aria-hidden="true"
+								*ngIf="show_prev_data"></i>
+							</strong>	
+						</a>
+					</td>
+				</tr>
+				<tr *ngIf="show_prev_data">
+					<td style="width: 33%;">
+						<span *ngIf="data_loading">Loading, please wait...</span>
+						<span *ngIf="!data_loading" class="pat_details_paragraph">
+							<b>Past history:</b>
+							<span *ngIf="pat_lifestyles[0].type == 'past_history'">
+								{{pat_lifestyles[0].term}}
+							</span>
+						</span>
+					</td>
+					<td style="width: 33%;">
+						<span *ngIf="data_loading">Loading, please wait...</span>
+						<span *ngIf="!data_loading" class="pat_details_paragraph">
+							<b>Allergy history:</b>
+							<span *ngIf="pat_lifestyles[1].type == 'allergy_history'">
+								{{pat_lifestyles[1].term}}
+							</span>
+						</span>
+					</td>	
+					<td style="width: 33%;">
+						<span *ngIf="data_loading">Loading, please wait...</span>
+						<span *ngIf="!data_loading" class="pat_details_paragraph">
+							<b>Family history:</b>
+							<span *ngIf="pat_lifestyles[2].type == 'family_history'">
+								{{pat_lifestyles[2].term}}
+							</span>
+						</span>
+					</td>	
+				</tr>
+				<tr *ngIf="show_prev_data">
+					<td class="pat_details_paragraph" colspan="3">
+						<strong>Personal history: </strong>
+						<span *ngFor="let l of pat_lifestyles">
+							<span class="label label-primary" *ngIf="l.type == 'other_lifestyle'">
+								{{l.lifestyle}}
+							</span>
+						</span>
+					</td>
+				</tr>
+				<tr *ngIf="show_prev_data">
+					<td class="pat_details_paragraph" colspan="3">
+						<strong>Vaccination history: </strong>
+						<span *ngFor="let i of vaccines">
+							<span class="label label-primary">
+								{{i.text}}
+							</span>
+						</span>
+					</td>
+				</tr>
+				<tr *ngIf="show_prev_data">
+					<td class="pat_details_paragraph" colspan="3">
+						<strong>Chief complains: </strong>
+						<span *ngFor="let l of pat_problem_list">
+							<span class="label label-primary" *ngIf="l.type == 'problems'">
+								{{l.problems}}
+							</span>
+						</span>
+					</td>
+				</tr>
+				<tr *ngIf="show_prev_data">
+					<td colspan="3">
+						<strong>Examination & observation </strong>
+						<span *ngIf="loading_observations">Loading, please wait...</span>
+						<ul *ngIf="!loading_observations" 
+						style="margin:0;padding:0;list-style-type:none;">
+							<li *ngFor="let obs of observations">
+								<b>{{obs.name}}</b> : {{obs.data}}
+							</li>
+						</ul>
+					</td>
+				</tr>
+				<tr *ngIf="show_prev_data">
+					<td colspan="3">
+						<span *ngIf="data_loading">Loading, please wait...</span>
+						<span *ngIf="!data_loading">
+							<span *ngIf="pat_problem_list[0].type == 'remarks' && pat_problem_list[0].term != '' ">
+								<strong>Remarks: </strong> {{pat_problem_list[0].term}} 
+							</span>
+						</span>
+					</td>	
+				</tr>
+				
+			</tbody>
+		</table>		
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4">
+		<button type="button" class="btn btn-default btn-block" (click)="switch_step(1)">
+			History & background
+		</button>		 
+	</div>
+	<div class="col-md-4">
+		<button type="button" class="btn btn-default btn-block" (click)="switch_step(2)">
+			Complain details
+		</button>
+	</div>
+	<div class="col-md-4">
+		<button type="button" class="btn btn-primary btn-block">
+			Advice & management
+		</button>
+	</div>
+</div>
+
+<form (ngSubmit)="save_prescription(f)" #f="ngForm">
+	<div class="row" style="margin-top: 20px;">
+		<div class="col-md-12">
+			
+			<div class="panel panel-primary">
+				<div class="panel-heading">Advice & management</div>
+			  	<div class="panel-body">
+
+			  		
+				  	<div class="row">
+				  		<div class="col-md-3">
+				  			
+				  			<div *ngIf="selected_items_test.length > 0">
+				  				<label class="block_elem">Suggested investigation(s)</label>
+				  				<table class="table-condensed table table-striped">
+				  					<tbody>
+				  						<tr *ngFor="let test of selected_items_test" class="record_row">
+				  							<td style="width:90%;">
+				  								{{test.text}}
+				  							</td>
+				  							<td style="width:10%;">
+				  								<button type="button" 
+				  								class="btn btn-default btn-xs pull-right"
+												(click)="remove_item_from_selection_test(test)">
+													<span class="glyphicon glyphicon-remove-circle" 
+													aria-hidden="true"></span>				
+												</button>
+				  							</td>
+				  						</tr>
+				  					</tbody>
+				  				</table>
+				  			</div>
+
+				  			<label class="block_elem">Investigation</label>
+				  			<input type="text" name="test" class="form-control" 
+							#test (input)="typed_input_test(test.value)" 
+							(click)="switch_view_test_suggestion()"
+							[(ngModel)]="default_val_test"
+							placeholder="Search investigation">
+
+							<div *ngIf="show_suggestion_test" class="suggestion_container">
+								<span *ngIf="loading_data_test">Loading...</span>
+								<table class="table table-condensed suggestion_table" *ngIf="!loading_data_test">
+									<tbody>
+										<tr *ngFor="let i of shown_items_test" 
+										(click)="select_item_test(i)">
+											<td>
+												{{i.text}}
+											</td>		
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+				  		</div>
+
+				  		<div class="col-md-9">
+				  			<div class="row">
+				  				<div class="col-md-12">
+				  					<label class="block_elem">Treatment/Mangement</label>
+				  					<textarea name="treatment_text" class="form-control input-sm"
+				  					[(ngModel)]="additional_advice" animatedTextarea
+				  					style="width:100%;resize:vertical;height:80px;"
+				  					placeholder="Additional advice if necessary"></textarea>
+				  				</div>
+				  			</div>
+				  			<div class="row" style="margin-top: 15px;">
+				  				<div class="col-md-12">
+									<div *ngIf="selected_items.length > 0">
+										<label class="block_elem">Prescribed medicine(s)</label>
+										<table class="table-condensed table table-striped">
+											<tbody>
+												<tr *ngFor="let item of selected_items" 
+												class="record_row">
+													<td style="width:30%;">
+														<span *ngIf="item.product" style="display: block;">
+															<b>{{item.product}}</b>
+														</span>
+														<span>
+															{{item.category}}
+														</span>		
+													</td>
+													<td style="width: 60%;">
+														<div>
+															<input type="number" name="unit_{{item.id}}" ngModel required 
+															step="any" style="width: 15%;" #unit min="0">
+															unit(s) every
+															<input type="number" name="freq_{{item.id}}" ngModel required
+															step="any" style="width: 15%;" #freq min="0">
+															<select name="time_freq_{{item.id}}" #time_freq 
+															[ngModel]="'Hour(s)'" style="padding: 3px 0">
+																<option value="Hour(s)">Hour(s)</option>
+																<option value="Day(s)">Day(s)</option>
+																<option value="Week(s)">Week(s)</option>
+																<option value="Month(s)">Month(s)</option>
+															</select>
+															at
+															<select name="day_time_{{item.id}}" #day_time 
+															[ngModel]="''" style="padding: 3px 0">
+																<option value="">None</option>
+																<option value="Morning">Morning</option>
+																<option value="Noon">Noon</option>
+																<option value="Night">night</option>
+															</select>
+															<select name="meal_{{item.id}}" #meal 
+															[ngModel]="''" style="padding: 3px 0">
+																<option value="">None</option>
+																<option value="Before">Before</option>
+																<option value="After">After</option>
+															</select>
+															meal for
+															
+															<input type="number" name="days_{{item.id}}" #days
+															ngModel style="width:15%;" min="0"> 
+															days OR  
+															
+															<input type="checkbox" name="continue_{{item.id}}"
+															ngModel #continue > Continue
+															
+														</div>												
+														<div style="margin-top: 5px">
+															<textarea name="instruction_{{item.id}}" 
+															ngModel style="width: 95%; resize:vertical;" 
+															placeholder="Other instructions (if any)"></textarea>
+														</div>
+													</td>
+													<td style="width: 10%;">
+														<button type="button" 
+														class="btn btn-default btn-xs pull-right"
+														(click)="remove_item_from_selection(item)">
+															<span class="glyphicon glyphicon-remove-circle" 
+															aria-hidden="true"></span>				
+														</button>	
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+
+									<div>
+										<label class="block_elem">Medicine</label>
+										<input type="text" name="medicines" class="form-control" 
+										#medicines (input)="typed_input(medicines.value)" 
+										[ngModel]="default_val" (click)="open_suggestion()"						 
+										placeholder="Type in generic or product name">		  
+
+										<div *ngIf="show_suggestion" class="suggestion_container">
+											<span *ngIf="loading_data">Loading...</span>
+											<table class="table table-condensed suggestion_table" *ngIf="typed">
+												<tbody>
+													<tr *ngFor="let i of shown_items_on_input" 
+													(click)="select_item(i)">
+														<td style="width:80%;">
+															{{i.text}}
+														</td>
+														<td style="width:20%;">
+															<span class="badge">{{i.type | uppercase}}</span>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+
+									<div *ngIf="show_product_selection_input" style="margin-top: 15px;">
+										<label class="block_elem">Product</label>
+										<input type="text" name="product" class="form-control"
+										[(ngModel)]="default_val_product" 
+										(input)="input_in_product_box(product.value)" 
+										#product placeholder="Product name(s)"> 
+										
+
+										<div *ngIf="show_suggestion_product" class="suggestion_container">
+											<span *ngIf="product_data_loading">Loading...</span>
+											
+											<table class="table table-condensed suggestion_table" 
+											*ngIf="!product_data_loading && !product_data_typed">
+												<tbody>
+													<tr *ngFor="let p of product_list" 
+													(click)="select_product(p)">
+														<td style="width:80%;">
+															{{p.text}}
+														</td>
+														<td style="width:20%;">
+															<span class="badge">{{p.type | uppercase}}</span>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+
+											<table class="table table-condensed suggestion_table" 
+											*ngIf="product_data_typed">
+												<tbody>
+													<tr *ngFor="let p of product_list_on_input" 
+													(click)="select_product(p)">
+														<td style="width:80%;">
+															{{p.text}}
+														</td>
+														<td style="width:20%;">
+															<span class="badge">{{p.type | uppercase}}</span>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+
+										</div>
+									</div>	
+
+									<div style="margin-top: 15px;">
+										<button type="button" class="btn btn-success btn-sm"
+										(click)="add_item_in_queue()"
+										[disabled]="!selected_generic.id">Add</button>
+									</div>
+								</div>	
+							</div>	
+				  		</div>
+				  	</div>
+					  	
+			  	</div>
+			</div>
+		
+		</div>
+	</div>	
+
+	<div class="row" style="margin: 10px 0;">
+			
+		<button type="submit" class="btn btn-primary pull-right" 
+	  	[disabled]="disable_final_button || !f.valid">
+	  		Generate prescription
+	  	</button>
+
+	</div>	  		
+
+</form>
+</div>

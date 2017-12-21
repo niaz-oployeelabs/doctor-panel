@@ -1,0 +1,18 @@
+<div class="row">
+	<div class="col-md-12">
+		<div *ngIf="chamber_loading">Loading data, please wait...</div>
+		<div class="alert alert-warning" role="alert" *ngIf="no_chamber">No chamber location is set. Please contact doctorola</div>
+		<ul class="nav nav-pills">
+		  	<li *ngFor="let c of chambers" class="tooltip_btn" routerLinkActive="active">
+		  		<a [routerLink]="['slots',c.id]">{{c.short_address}}</a>
+		  		<span class="tooltip_text left">{{c.address}}</span>	
+		  	</li>
+		</ul>
+	</div>	
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<router-outlet></router-outlet>
+	</div>	
+</div>

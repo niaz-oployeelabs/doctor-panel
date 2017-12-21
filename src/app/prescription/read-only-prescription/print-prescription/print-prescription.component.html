@@ -1,0 +1,59 @@
+<div id="seperate_printable" style="display: none;">
+	<div class="bordered">
+		<div class="bordered_header">
+			<div class="borderd_header_inner">
+
+				<div class="same_row_left">
+					
+					<div>
+						<div class="same_row_left">Patient name :</div>
+						<div class="same_row_right"><b>{{lifestyles[0].pat_name}}</b></div>
+					</div>
+
+					<div>
+						<div class="same_row_left">Patient age :</div>
+						<div class="same_row_right"><b>{{lifestyles[0].pat_age}}</b></div>
+					</div>
+
+					<div>
+						<div class="same_row_left">Patient gender :</div>
+						<div class="same_row_right">
+							<b *ngIf="lifestyles[0].pat_gender == 'm'">
+								Male
+							</b>
+							<b *ngIf="lifestyles[0].pat_gender == 'f'">
+								Female
+							</b>
+						</div>
+					</div>
+
+					<div>
+						<div class="same_row_left">Patient cell no :</div>
+						<div class="same_row_right">{{lifestyles[0].cell_no}}</div>
+					</div>
+
+				</div>
+
+				<div class="same_row_right">
+					
+					<div>
+						<div class="same_row_left">Consultant :</div>
+						<div class="same_row_right">{{doctor.name}}</div>
+					</div>	
+
+					<div>
+						<div class="same_row_left">Date:</div>
+						<div class="same_row_right">{{(lifestyles[0].created)*1000 | date}}</div>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<button class="btn btn-sm btn-success" (click)="print_prescription()">Print</button>
+
+	

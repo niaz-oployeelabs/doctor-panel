@@ -1,0 +1,11 @@
+.dropdown{
+	padding:15px 0; 
+	cursor: pointer;
+}
+.dropdown-menu{
+	top:70%;
+}
+hr{
+	margin:50px 0 0;
+	border-top:1px solid #D0D0D0;
+}

@@ -1,0 +1,43 @@
+<doctorola-header></doctorola-header>
+
+	<div class="page_body">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-4"></div>
+				<div class="col-md-4">
+					<div class="panel panel-default login_panel">
+						<div class="panel-body">
+					    	<h4>Doctorola Doctor Panel</h4>
+					    	<hr/>
+					    	<div class="alert alert-danger" role="alert" 
+					    	*ngIf="invalid_access">
+					    		<strong>Sorry!</strong> Invalid access attempt
+					    	</div>
+
+					    	<form (ngSubmit)="onSubmit(f)" #f="ngForm">
+					    		<div>
+						    		<input type="text" name="cell_no" class="input-lg form-control"
+						    		placeholder="Your cell no e.g. 01722284938" required 
+						    		pattern="[0]{1}[1]{1}[0-9]{9}" ngModel #cell_no="ngModel" autofocus />		
+					    		</div>	
+
+					    		<div class="new_line_form_control_div">
+						    		<input type="password" name="password" class="input-lg form-control"
+						    		placeholder="Your password" required 
+						    		ngModel #password="ngModel" />		
+					    		</div>
+
+					    		<div class="form_submit_btn_div">
+						    		<input type="submit" class="btn btn-success" value="Login" 
+						    		[disabled]="!f.valid">
+						    	</div>	
+					    	</form>
+					  	</div>
+					</div>
+				</div>
+				<div class="col-md-4"></div>
+			</div>
+		</div>
+	</div>
+
+<doctorola-footer></doctorola-footer>

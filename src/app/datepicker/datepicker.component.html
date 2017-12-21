@@ -1,0 +1,51 @@
+<div class="container main_container">
+	<div class="row">
+		<div class="col-md-4">
+			<button class="btn btn-default btn-xs" (click)="navigate_month('prev')">
+				<i class="fa fa-chevron-left" aria-hidden="true"></i>
+			</button>
+		</div>
+		<div class="col-md-4">
+			<p class="text-center">
+				<strong>{{months[this_month]}} {{this_year}}</strong>
+			</p>		
+		</div>
+		<div class="col-md-4">
+			<button class="btn btn-default btn-xs pull-right" (click)="navigate_month('next')">
+				<i class="fa fa-chevron-right" aria-hidden="true"></i>
+			</button>
+		</div>
+	</div>
+
+
+	<div class="row">
+		<div class="col-md-12">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Sat</th>
+						<th>Sun</th>
+						<th>Mon</th>
+						<th>Tue</th>
+						<th>Wed</th>
+						<th>Thu</th>
+						<th>Fri</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let row of box_row, let row = index">
+						<td *ngFor="let col of box_col, let col = index" class="text-center"  
+						(click)="pick_date(generated_days[row][col])"
+						[ngClass]="{'today_date':today && today_date == generated_days[row][col],
+						'valued_td':generated_days[row][col], 
+						'selected':selected && selected_date == generated_days[row][col]}" >			
+							<span *ngIf="generated_days[row][col]">	
+								{{ generated_days[row][col] }}
+							</span>	
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>	
+	</div>
+</div>

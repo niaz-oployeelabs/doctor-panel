@@ -1,0 +1,118 @@
+<div class="row">
+	<div class="col-md-12">
+		<label for="cell_no">Patient cell no: </label>
+		<form class="form-inline" (ngSubmit)="find_user(f)" #f="ngForm">
+			<div class="form-group">			    
+			    <input type="text" class="form-control" id="cell_no" placeholder="e.g. 01722284938" 
+			    name="cell_no" pattern="[0]{1}[1]{1}[0-9]{9}" [ngModel]="patient_cell_no" #cell_no="ngModel" autofocus required>   
+			</div>
+			<button type="submit" class="btn btn-primary" [disabled]="!f.valid">Search</button>
+		</form>	
+	</div>
+</div>
+
+<div class="row" *ngIf="loading_patients" style="margin-top: 20px;">
+	<div class="col-md-12">Searching patient, please wait...</div>
+</div>
+
+<div class="row" *ngIf="!loading_patients" style="margin-top: 20px;">
+	<div class="col-md-12">
+		<div *ngIf="show_pat_list" class="alert alert-success">
+			<strong>{{patients.length}}</strong> patient(s) found
+		</div>
+		<div *ngIf="show_new_pat_insertion && patients.length === 0" class="alert alert-warning">
+			No patient found.
+		</div>
+	</div>
+</div> 
+
+<div class="row" *ngIf="show_pat_list" style="margin-top: 20px;">
+	<div class="col-md-12">
+		<ul class="inline_patient_list">
+			<li *ngFor="let p of patients">
+				
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+						<strong>{{p.name}}</strong>
+					</div>
+				  	<div class="panel-body">
+				   		<div>Age: {{p.age}}</div>
+				   		<div>Gender: {{p.gender}}</div>
+
+				   		<div class="row">
+				   			<div class="col-md-6">
+				   				<button class="btn btn-primary btn-xs" 
+				   				(click)="select_pat(p.name, p.age, p.gender, p.id, p.type)">
+				   					Select
+				   				</button>
+				   			</div>
+				   			<div class="col-md-6">
+				   				<button class="btn btn-info btn-xs pull-right"
+				   				(click)="edit_pat(p.name, p.age, p.gender, p.id, p.type)">
+				   					Edit
+				   				</button>				   				
+				   			</div>
+				   		</div>
+
+				   		
+
+
+				  	</div>
+				</div> 
+
+			</li>
+
+			<li>
+				<button class="btn btn-default" (click)="open_patient_insertion()">
+					Another patient
+				</button>
+			</li>
+		</ul>		
+	</div>
+</div>
+
+<div *ngIf="show_new_pat_insertion">
+	<div class="row" style="margin-top: 20px;">
+		<div class="col-md-12">			
+			<form class="form-inline" (ngSubmit)="add_new_pat(f)" #f="ngForm">
+				<div class="row">
+					<div class="col-md-3">
+						<label for="name">Patient name: </label>
+					    <input type="text" class="form-control" id="name" placeholder="e.g. Tanvir Ahmed" 
+					    name="name" [ngModel]="form_pat_name" required style="width: 100%;">   
+
+					</div>
+					<div class="col-md-3">
+						<label for="age">Patient age: </label>
+					    <input type="number" class="form-control" id="age" placeholder="e.g. 23" 
+					    name="age" [ngModel]="form_pat_age" required style="width: 100%;" step="any">
+					</div>
+					<div class="col-md-3">
+						<label for="gender">Patient gender: </label>
+					    <select [ngModel]="form_pat_gender" name="gender" required class="form-control" 
+					    id="gender" style="width: 100%;">					    
+			      			<option value="">Select gender</option>
+			      			<option value="m">Male</option>
+			      			<option value="f">Female</option>
+			      		</select> 
+					</div>
+					<input type="hidden" name="pat_id" [ngModel]="form_pat_id">
+					<input type="hidden" name="pat_type" [ngModel]="form_pat_type">
+					<div class="col-md-3">
+						<button type="submit" class="btn btn-success" 
+						[disabled]="!f.valid" style="margin-top: 21px;">Save patient data</button>
+					</div>
+				</div>				
+			</form>
+		</div>
+	</div>
+
+	<div class="row" *ngIf="patients.length" style="margin-top: 20px;">
+		<div class="col-md-12">
+			<button class="btn btn-default btn-xs" (click)="switch_pat_list()">
+				Show list again
+			</button>
+		</div>	
+	</div>
+</div>	

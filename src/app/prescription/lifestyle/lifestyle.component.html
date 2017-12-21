@@ -1,0 +1,197 @@
+<div class="test_anim">
+<div class="row">
+	<div class="col-md-12">
+		<p class="pat_details_paragraph">
+			<strong>
+				Patient name: {{pat_details.name}} 
+				&nbsp;&nbsp;&nbsp; 
+				Age: {{pat_details.age}}
+				&nbsp;&nbsp;&nbsp;
+				Gender: {{pat_details.gender}}
+				&nbsp;&nbsp;&nbsp;
+				Cell no: {{pat_details.cell_no}}
+			</strong>	
+		</p>
+	</div>	
+</div>	
+
+<div class="row">
+	<div class="col-md-4">
+		<button type="button" class="btn btn-primary btn-block">
+			History & background
+		</button>		 
+	</div>
+	<div class="col-md-4">
+		<button type="button" class="btn btn-default btn-block" 
+		[disabled]="current_step < 2" (click)="switch_step(2)" >
+			Complain details
+		</button>
+	</div>
+	<div class="col-md-4">
+		<button type="button" class="btn btn-default btn-block" 
+		[disabled]="current_step < 3" (click)="switch_step(3)">
+			Advice & management
+		</button>
+	</div>
+</div>
+
+<div class="row" style="margin-top: 20px;">
+	<div class="col-md-12">
+		
+		<div class="panel panel-primary">
+			<div class="panel-heading">Patient history & background</div>
+		  	<div class="panel-body">
+		    	
+			  	<form class="" (ngSubmit)="add_vital_stat(f)" #f="ngForm">
+			  		<div class="row">
+			  			<div class="col-md-12">
+				  			<label for="past_history" class="block_elem">
+				  				Past illness, medical & surgery history
+				  			</label>
+				  			<textarea class="form-control input-sm" id="past_history" 
+				  			[ngModel]="past_history" animatedTextarea
+				  			name="past_history" style="width: 100%;resize: vertical;height:80px;"
+				  			placeholder="Add patient's past history if necessary"></textarea>
+				  		</div>	
+			  		</div>
+
+			  		<div class="row" style="margin-top: 15px;">
+			  			<div class="col-md-7">
+			  				<div class="row">
+			  					<div class="col-md-12">
+					  				<label class="block_elem">Personal history</label>
+					  				
+					  				<label for="personal_history" class="input_with_selected">	
+										<a href="javascript:void(0)" class="btn btn-xs btn-default multi_select_tag" 
+										*ngFor="let i of selected_item">
+											{{i.text}} &nbsp;&nbsp;
+											<span class="glyphicon glyphicon-remove" aria-hidden="true"
+											(click)="remove_item_from_selection({id:i.id, text:i.text})"></span>
+										</a>
+										<input type="text" (click)="open_suggestion()" name="lifestyles" 
+										(input)="typed_input(input.value)" #input 
+										[(ngModel)]="default_val" id="personal_history"
+										placeholder="Add as many required"
+										[disabled]="disable_personal_history_input">
+									</label>
+
+									<div class="custom_multi_select">
+										
+
+										<div *ngIf="show_suggestion" class="suggestion_container">
+											<button class="add_new_p_h btn btn-block btn-info btn-xs" (click)="add_new_personal_history(input.value)" [disabled]="input.value === ''"
+											type="button">
+												Not found? Add anyway
+											</button>
+											<span *ngIf="loading_data">Loading...</span>
+											<div>
+												<table class="table table-condensed suggestion_table" *ngIf="!typed">
+													<tbody>
+														<tr *ngFor="let i of shown_items" 
+														(click)="select_item(i)">
+															<td>
+																{{i.text}}
+															</td>		
+														</tr>
+													</tbody>
+												</table>
+												<table class="table table-condensed suggestion_table" *ngIf="typed">
+													<tbody>
+														<tr *ngFor="let i of shown_items_on_input" 
+														(click)="select_item(i)">
+															<td>
+																{{i.text}}
+															</td>		
+														</tr>
+													</tbody>
+												</table>	
+											</div>	
+										</div>	
+									</div>
+								</div>
+							</div>	
+
+							<div class="row" style="margin-top: 10px;">
+								<div class="col-md-12">
+									
+									<label class="block_elem">Vaccination history</label>
+
+									<label class="input_with_selected" for="vaccine_history">	
+										<a href="javascript:void(0)" class="btn btn-xs btn-default multi_select_tag" 
+										*ngFor="let i of vaccine_selected_items">
+											{{i.text}} &nbsp;&nbsp;
+											<span class="glyphicon glyphicon-remove" aria-hidden="true"
+											(click)="remove_item_from_selection_vaccine({id:i.id, text:i.text})"></span>
+										</a>
+										<input type="text" (click)="switch_vaccination_suggestion()" 
+										name="vaccines"  id="vaccine_history"
+										(input)="vaccine_typed_input(vaccine_input.value)" #vaccine_input [(ngModel)]="vaccine_default_val" 
+										placeholder="Add as many required">
+									</label>
+
+									<div class="custom_multi_select">
+										<div *ngIf="vaccine_open_suggestion" 
+										class="suggestion_container">
+											<span *ngIf="vaccine_loading_data">Loading...</span>
+											<table class="table table-condensed suggestion_table" *ngIf="!vaccine_loading_data">
+												<tbody>
+													<tr *ngFor="let i of vaccine_shown_items" 
+													(click)="vaccine_select_item(i)">
+														<td>
+															{{i.text}}
+														</td>		
+													</tr>
+												</tbody>
+											</table>
+										</div>	
+									</div>
+
+								</div>	
+							</div>	
+			  			</div>			  			
+
+			  			<div class="col-md-5">
+			  				<div class="row">
+			  					<div class="col-md-12">
+			  						<label for="allergy_history" class="block_elem">
+			  							Allergy history
+			  						</label>
+			  						<textarea class="form-control input-sm" id="allergy_history" 
+			  						[ngModel]="allergy_history" animatedTextarea
+			  						name="allergy_history" 
+			  						style="width: 100%;resize: vertical;height:80px;"
+			  						placeholder="Patient's allergy history"></textarea>
+			  					</div>
+			  				</div>	
+			  				<div class="row" style="margin-top: 10px;">
+			  					<div class="col-md-12">
+			  						<label for="family_history" class="block_elem">
+			  							Family history
+			  						</label>
+			  						<textarea class="form-control input-sm" id="family_history" 
+			  						[ngModel]="family_history" animatedTextarea
+			  						name="family_history" 
+			  						style="width: 100%;resize: vertical;height:80px;"
+			  						placeholder="Patient's family history"></textarea>
+			  					</div>
+			  				</div>	
+			  			</div>	
+
+			  		</div>
+
+			  		<div class="row" style="margin-top: 15px;">
+			  			<div class="col-md-12">
+			  				<button type="submit" class="btn btn-success" 
+			  				[disabled]="selected_item.length < 1 || disable_final_button">Save</button>
+			  			</div>
+			  		</div>
+			  	</form>
+
+
+
+		  	</div>
+		</div>
+
+	</div>
+</div>
+</div>

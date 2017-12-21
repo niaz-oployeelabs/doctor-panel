@@ -1,0 +1,240 @@
+body{
+	font-family: 'Roboto', sans-serif;	
+	font-size: 12px;
+}
+a, a:hover, a:visited, a:active, a:focus{
+	text-decoration: none;
+}
+.input_with_selected{
+	width:100%;
+	display: block;
+	min-height: 34px;
+	border: 1px solid #ccc;
+	padding: 6px 10px;
+	-webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+	border-radius: 4px;
+	line-height: 30px;
+	font-weight: normal;
+}
+.input_with_selected input, .input_with_selected input:focus{
+	border: none;
+	outline: none;
+	box-shadow: none;
+	display: inline;
+	padding:0;
+}
+.doctorola_navbar{
+	background-image: none;
+	background-color: #fff;
+	height:75px;
+	margin:0;
+}
+.common_header_text {
+    color: #30A2DB;
+}
+.header_phone_no {
+    font-weight: bold;
+}
+.header_text {
+    font-size: 16px;
+}
+.floating_text {
+    position: relative;
+    z-index: 10;
+}
+.page_body{
+	background-color: #EFEFEF;
+	min-height: 534px;
+}
+.general_exam_div{
+	height: 150px;
+	overflow: auto;
+	margin-bottom: 20px;
+}
+.login_panel{
+	margin:100px 0 20px 0;
+}
+.form_submit_btn_div, .new_line_form_control_div{
+	margin-top: 15px;
+}
+.footer_div{
+	height:560px;
+	background-color:#617B8B;
+	color:#fff;
+}
+
+.footer_header{
+	color:#fff;
+	margin-top:80px;
+}
+
+.footer_image{
+	width:300px;
+	margin:45px 0;
+}
+
+.footer_div hr{
+	margin-top:0px;	
+}
+
+.footer_social_icon{
+	font-size:30px;	
+}
+
+.footer_useful_links
+{
+	margin-top:30px;
+	font-size:17px;
+}
+
+.footer_copyright{
+	margin-top:25px;
+}
+
+.footer_useful_links a, .footer_social_icon a{
+	color:#fff;
+}
+
+.footer_useful_links a:hover, .footer_social_icon a:hover{
+	text-decoration:none;
+}
+.block{
+	display: block;
+}
+input.ng-touched.ng-invalid, select.ng-touched.ng-invalid, textarea.ng-touched.ng-invalid{
+	border:2px solid #BA6D6C;
+}
+.tooltip_btn{
+	position: relative;
+}
+.tooltip_btn .tooltip_text {
+	position: absolute;
+	z-index: 1000;
+	visibility: hidden; 
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 10px;
+    top: 40px; 
+   	
+    -webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+}
+
+.tooltip_text.right {
+	left:0;
+}
+
+.tooltip_text.left {
+	right:0;
+}
+
+.tooltip_text.side {
+	bottom: -5px;
+	left: 25px;
+}
+
+.tooltip_btn:hover .tooltip_text {
+    visibility: visible;
+}
+/************multi select **************/
+.custom_multi_select{
+	position: relative;
+	bottom:5px;
+}
+@-webkit-keyframes animate_first_view{
+	0% {opacity: 0.1;}
+	50% {opacity: 0.5;}
+	100% {opacity: 1;}
+}
+@-moz-keyframes animate_first_view{
+	0% {opacity: 0.1;}
+	50% {opacity: 0.5;}
+	100% {opacity: 1;}
+}
+@-o-keyframes animate_first_view{
+	0% {opacity: 0.1;}
+	50% {opacity: 0.5;}
+	100% {opacity: 1;}
+}
+@keyframes animate_first_view{
+	0% {opacity: 0.1;}
+	50% {opacity: 0.5;}
+	100% {opacity: 1;}
+}
+.suggestion_container{
+	max-height: 200px;
+	overflow-y: scroll;
+	border: 1px solid #C4C4C4;	
+	width:100%;
+	z-index: 1000;
+	background-color: #fff;
+	
+	-webkit-animation: animate_first_view 0.3s;
+	-moz-animation: animate_first_view 0.3s;
+	-o-animation: animate_first_view 0.3s;
+	animation: animate_first_view 0.3s;
+
+	-webkit-box-shadow: 1px 2px 5px 2px rgba(158,152,158,1);
+    -moz-box-shadow: 1px 2px 5px 2px rgba(158,152,158,1);
+	box-shadow: 1px 2px 5px 2px rgba(158,152,158,1);
+	
+}
+.suggestion_list{
+	list-style-type: none;
+	padding:0;
+}
+.suggestion_list li{
+	cursor: pointer;
+	padding: 5px 8px;
+}
+.suggestion_list li:hover{
+	background-color: #428BCA;
+	color: #fff;
+}
+.suggestion_table{
+	margin-bottom: 0;
+}
+.suggestion_table tr{
+	cursor: pointer;
+}
+.suggestion_table tr:hover{
+	background-color: #428BCA;
+	color: #fff;
+}
+.multi_select_tag{
+	margin-right: 5px;
+}
+/****************************************/
+.textarea_expanded{
+	height: 90px !important;
+	transition: height 0.3s;
+	-o-transition: height 0.3s;
+	-moz-transition: height 0.3s;
+	-webkit-transition: height 0.3s;
+}
+.textarea_shrinked{
+	height: 80px !important;
+	transition: height 0.3s;
+	-o-transition: height 0.3s;
+	-moz-transition: height 0.3s;
+	-webkit-transition: height 0.3s;
+}
+.record_row{
+	-webkit-animation: animate_first_view 0.3s;
+	-moz-animation: animate_first_view 0.3s;
+	-o-animation: animate_first_view 0.3s;
+	animation: animate_first_view 0.3s;
+}
+.test_anim{
+	opacity: 0;
+	-webkit-animation: animate_first_view 0.5s forwards;
+	-moz-animation: animate_first_view 0.5s forwards;
+	-o-animation: animate_first_view 0.5s forwards; 
+	animation: animate_first_view 0.5s forwards;
+	/*animation-name: animate_first_view ;
+	animation-duration: 1s;
+	animation-fill-mode: forwards; */	
+}

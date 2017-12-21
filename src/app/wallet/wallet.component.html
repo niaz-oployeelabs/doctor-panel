@@ -1,0 +1,40 @@
+<div class="row">
+	<div class="col-md-12">
+		<h4>My wallet</h4>
+		<div *ngIf="data_loading">Loading, please wait...</div>
+		<div *ngIf="!data_loading">
+			<div *ngIf="wallet_data.length < 1">No Data found</div>
+			<table class="table table-condensed" *ngIf="wallet_data.length > 0">
+				<thead>
+					<th>Patient</th>
+					<th>App time</th>
+					<th>Amount debit</th>
+					<th>Amount credit</th>
+					<th>Total balance</th>
+					<th>Transaction time</th>
+				</thead>
+				<tbody>
+					<tr *ngFor="let data of wallet_data">
+						<td>{{data.name}}</td>
+						<td>{{data.formatted_time | date:"MMM d y, hh:mm a"}}</td>
+						<td>
+							<span *ngIf="data.amount_dr > 0">
+								BDT {{data.amount_dr}}/=
+							</span>
+						</td>
+						<td>
+							<span *ngIf="data.amount_cr > 0">
+								BDT {{data.amount_cr}}/=
+							</span>	
+						</td>
+						<td>BDT {{data.total_balance}}/=</td>
+						<td>{{data.transaction_time | date:"MMM d y, hh:mm a"}}</td>
+					</tr>
+				</tbody>
+			</table>
+
+		</div>
+	</div>
+	<!--<div class="col-md-4"></div>-->
+	
+</div>
